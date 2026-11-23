@@ -65,6 +65,28 @@ The same events are dispatched on the host element as a `jade-edu` CustomEvent. 
 
 Change any of these with `configure({ python, engine, ui, katex, fonts })`.
 
+## Screenshots and demos
+
+Made by [`tools/docshots.mjs`](tools/docshots.mjs) from the example course, in the Vault look.
+
+![Lecture: Jade reads along while the slides advance](docs/img/lecture-narration.gif)
+
+| | |
+|---|---|
+| ![Lecture](docs/img/lecture.webp)<br>**Lecture**: slides, concept map, Jade narrating | ![Quiz](docs/img/lecture-quiz.webp)<br>**Quiz slides**: feedback and an explanation |
+| ![Read](docs/img/read.webp)<br>**Read**: the same chapter as a document | ![Cards](docs/img/cards-flipped.webp)<br>**Cards**: flip to the answer |
+| ![Match](docs/img/lab-match-pass.webp)<br>**Match lab** | ![Order](docs/img/lab-order.webp)<br>**Order lab** |
+| ![Fill](docs/img/lab-fill.webp)<br>**Fill lab** | ![Code](docs/img/lab-code-pass.webp)<br>**Code lab**: JavaScript tests in a Worker |
+| ![Python](docs/img/lab-python.webp)<br>**Python lab**: MicroPython in the browser | ![Webxdc](docs/img/lab-webxdc.webp)<br>**Webxdc lab**: a sandboxed mini app calls `window.jade.complete()` |
+| ![Exam](docs/img/exam.webp)<br>**Final exam** | ![Phone](docs/img/phone.webp)<br>**Phone**: the rail becomes a menu |
+
+![Terminal lab: tasks tick off as you type the commands](docs/img/lab-terminal.gif)
+
+| Jade (default) | No teacher | Live2D (jade-vn-engine) |
+|---|---|---|
+| ![](docs/img/lecture.webp) | ![](docs/img/teacher-none.webp) | ![](docs/img/teacher-live2d.webp) |
+
+
 ## Teachers
 
 A teacher is `{ el, name, start, stop, emotion(e), speaking(on), word(), destroy }`. The built-in ones:
