@@ -148,10 +148,13 @@ try {
   await m.screenshot({ path: path.join(OUT, 'phone.png') });
   await m.close();
 
-  // Live2D teacher (needs the engine checkout's test game with the Hiyori model and the Cubism Core; both are git-ignored there)
+  // Live2D teacher: Jade's own model (in jade-vn-engine's Jade's Vault game); the Cubism Core from that checkout if it was
+  // fetched (git-ignored there), else from Live2D's site
   const A = '/engine-root/games/jade-vault/assets/';
-  if (hasEngine && fs.existsSync(path.join(ENGINE, '..', 'games', 'jade-vault', 'assets', 'hiyori', 'Hiyori.model3.json'))) {
-    const l = await open('model=' + A + 'hiyori/Hiyori.model3.json&core=' + A + 'live2dcubismcore.min.js&zoom=2.2&yoff=520');
+  const CORE = fs.existsSync(path.join(ENGINE, '..', 'games', 'jade-vault', 'assets', 'live2dcubismcore.min.js')) ? A + 'live2dcubismcore.min.js'
+    : 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js';
+  if (hasEngine && fs.existsSync(path.join(ENGINE, '..', 'games', 'jade-vault', 'assets', 'jade-live2d', 'jadecat.model3.json'))) {
+    const l = await open('model=' + A + 'jade-live2d/jadecat.model3.json&core=' + encodeURIComponent(CORE) + '&zoom=1.9&yoff=330');
     await l.waitForTimeout(2500);
     const lit = await l.evaluate(() => {
       const c = window.player.teacher.el.querySelector('canvas'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;

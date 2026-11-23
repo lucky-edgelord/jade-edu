@@ -83,7 +83,9 @@ try {
   // the teachers
   const none = await open('teacher=none'); await shot(none, 'teacher-none'); await none.close();
   if (hasEngine) {
-    const m = process.env.LIVE2D_MODEL;
-    if (m) { const l = await open(`model=${encodeURIComponent(m)}&core=${encodeURIComponent(process.env.LIVE2D_CORE || '')}`); await l.waitForTimeout(4000); await shot(l, 'teacher-live2d'); await l.close(); }
+    // Jade's own Live2D model, from jade-vn-engine's Jade's Vault game; Cubism Core from Live2D's site unless LIVE2D_CORE is set
+    const m = process.env.LIVE2D_MODEL || (fs.existsSync(path.join(ENGINE, '..', 'games', 'jade-vault', 'assets', 'jade-live2d', 'jadecat.model3.json')) ? '/engine-root/games/jade-vault/assets/jade-live2d/jadecat.model3.json' : '');
+    process.env.LIVE2D_CORE ||= 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js';
+    if (m) { const l = await open(`model=${encodeURIComponent(m)}&core=${encodeURIComponent(process.env.LIVE2D_CORE)}&zoom=1.9&yoff=330`); await l.waitForTimeout(4000); await shot(l, 'teacher-live2d'); await l.close(); }
   }
 } finally { await browser.close(); process.exit(0); }
