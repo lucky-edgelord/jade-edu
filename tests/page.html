@@ -1,0 +1,13 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html,body{margin:0;height:100%;background:#040807}jade-course{height:100vh}</style>
+<script type="module">
+  // test page: ?course=…&teacher=…&model=…&core=…  (MicroPython and Live2D come from the local /engine/ mount)
+  import { configure, mount } from '../src/edu.js';
+  const q = new URLSearchParams(location.search);
+  configure({ python: '/engine/vendor/', engine: '/engine/', fonts: q.get('fonts') !== '0' });
+  const el = document.createElement('div'); el.style.height = '100vh'; document.body.append(el);
+  const teacher = q.get('model') ? { kind: 'live2d', model: q.get('model'), core: q.get('core'), zoom: +(q.get('zoom') || 1.8), yoffset: +(q.get('yoff') || 0) } : (q.get('teacher') || 'jade');
+  window.events = [];
+  window.player = await mount(el, q.get('course') || '../examples/stack-101.course.json', { teacher, voice: 'off', onEvent: (e) => window.events.push(e) });
+</script>

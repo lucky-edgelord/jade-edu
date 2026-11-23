@@ -1,0 +1,538 @@
+{
+ "format": "jade-course",
+ "version": 1,
+ "id": "jade-stack-101",
+ "title": "Jade Agent Stack 101",
+ "subtitle": "How the parts fit, and how pages load them from a CDN",
+ "author": "Jade",
+ "teacher": "jade",
+ "category": "Software",
+ "level": "Beginner",
+ "tags": [
+  "jade",
+  "agents",
+  "cdn"
+ ],
+ "pronounce": {
+  "CDN": "C D N",
+  "webxdc": "web X D C",
+  "MicroPython": "micro python"
+ },
+ "images": {
+  "stack.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 420 150\" font-family=\"sans-serif\" font-size=\"13\"><rect width=\"420\" height=\"150\" fill=\"#040807\"/>\n<g fill=\"#0f1a17\" stroke=\"#1fe5a5\"><rect x=\"10\" y=\"20\" width=\"110\" height=\"44\"/><rect x=\"155\" y=\"20\" width=\"110\" height=\"44\"/><rect x=\"300\" y=\"20\" width=\"110\" height=\"44\"/><rect x=\"155\" y=\"92\" width=\"110\" height=\"44\"/></g>\n<g fill=\"#e3f2ed\" text-anchor=\"middle\"><text x=\"65\" y=\"47\">Vault</text><text x=\"210\" y=\"47\">Agent Base</text><text x=\"355\" y=\"47\">Kit / UI</text><text x=\"210\" y=\"119\">vn \u00b7 edu</text></g>\n<g stroke=\"#1d6b52\" stroke-width=\"2\"><line x1=\"120\" y1=\"42\" x2=\"155\" y2=\"42\"/><line x1=\"265\" y1=\"42\" x2=\"300\" y2=\"42\"/><line x1=\"210\" y1=\"64\" x2=\"210\" y2=\"92\"/></g></svg>"
+ },
+ "chapters": [
+  {
+   "title": "The stack at a glance",
+   "maps": [
+    {
+     "title": "Who does what",
+     "links": [
+      "Jade Agent Stack | has a control plane | Vault",
+      "Jade Agent Stack | has a resource plane | Agent Base",
+      "Vault | embeds as | Agent Kit",
+      "Agent Kit | draws with | Agent UI/UX",
+      "Agent UI/UX | themes | jade-vn-engine [ch3]",
+      "Agent UI/UX | themes | jade-edu [ch2]"
+     ]
+    }
+   ],
+   "summary": [
+    "The Jade Agent Stack is a set of small repositories that share one look and one set of pins.",
+    "Vault runs the agent loop and talks to the person; Agent Base keeps identity, data, models and billing; the Kit and UI put an agent on any page."
+   ],
+   "glossary": [
+    {
+     "term": "Control plane",
+     "def": "The part that decides what happens next: the agent loop, schedules and approvals. In Jade this is Vault."
+    },
+    {
+     "term": "Resource plane",
+     "def": "The part that holds what agents use: identity, the database, the model gateway and the audit log. In Jade this is Agent Base."
+    },
+    {
+     "term": "Pin",
+     "def": "An exact version (a tag or a commit) that a page or a tool loads, so nothing changes under it."
+    }
+   ],
+   "keyPoints": [
+    "Every part has one job and one interface.",
+    "STACK.md lists the pins; the jade CLI refuses a part with the wrong major version."
+   ],
+   "lesson": [
+    {
+     "type": "figure",
+     "image": "stack.svg",
+     "caption": "The planes, and the front-ends built on them"
+    },
+    {
+     "type": "table",
+     "title": "Parts",
+     "head": [
+      "Part",
+      "Job",
+      "Interface"
+     ],
+     "rows": [
+      [
+       "Vault",
+       "agent loop, the person",
+       "HTTP /v1"
+      ],
+      [
+       "Agent Base",
+       "identity, data, models",
+       "REST + MCP"
+      ],
+      [
+       "Agent Kit",
+       "Vault on any page",
+       "ES module"
+      ],
+      [
+       "Agent UI/UX",
+       "web components",
+       "ES module"
+      ],
+      [
+       "jade-vn-engine",
+       "visual novels and games",
+       "ES module + MicroPython"
+      ],
+      [
+       "jade-edu",
+       "courses",
+       "ES module"
+      ]
+     ]
+    },
+    {
+     "type": "text",
+     "items": [
+      "The **UI/UX** tokens (`--jade-accent`, `--jade-cut`, ...) style every front-end, so a course, a game and a chat look like one product."
+     ]
+    }
+   ],
+   "references": [
+    {
+     "title": "jade-agent-stack STACK.md",
+     "url": "https://github.com/lucky-edgelord/jade-agent-stack/blob/main/STACK.md",
+     "note": "the pins"
+    }
+   ],
+   "quiz": [
+    {
+     "q": "Which part runs the agent loop and approvals?",
+     "options": [
+      "Agent Base",
+      "Vault",
+      "Agent UI/UX"
+     ],
+     "answer": 1,
+     "explain": "Vault is the control plane."
+    },
+    {
+     "q": "What is a pin?",
+     "options": [
+      "A branch name",
+      "An exact tag or commit",
+      "A CSS token"
+     ],
+     "answer": 1,
+     "explain": "A pin never moves, so a page that loads it keeps working."
+    }
+   ],
+   "cards": [
+    {
+     "q": "Control plane?",
+     "a": "Vault"
+    },
+    {
+     "q": "Resource plane?",
+     "a": "Agent Base"
+    },
+    {
+     "q": "Where are the pins listed?",
+     "a": "STACK.md"
+    }
+   ],
+   "practice": [
+    {
+     "type": "match",
+     "id": "roles",
+     "title": "Match each part to its job",
+     "pairs": [
+      [
+       "Vault",
+       "agent loop"
+      ],
+      [
+       "Agent Base",
+       "identity and data"
+      ],
+      [
+       "Agent UI/UX",
+       "web components"
+      ],
+      [
+       "jade-edu",
+       "courses"
+      ]
+     ]
+    },
+    {
+     "type": "order",
+     "id": "boot",
+     "title": "What happens when a page opens a course",
+     "items": [
+      "The page loads edu.js from the CDN",
+      "<jade-course> asks for the course JSON",
+      "The player module loads",
+      "The teacher's frames load",
+      "The learner presses play"
+     ]
+    },
+    {
+     "type": "webxdc",
+     "id": "pincheck",
+     "title": "Pin check (a webxdc app)",
+     "html": "<!doctype html><meta charset=\"utf-8\"><body style=\"font:16px sans-serif;background:#09100e;color:#e3f2ed;padding:20px\">\n<h3 style=\"color:#1fe5a5\">Pin check</h3><p>Which ref belongs in a production CDN URL?</p>\n<button onclick=\"pick(0)\">@main</button> <button onclick=\"pick(1)\">@fe61a50 (a commit) or @v1.3.0 (a tag)</button><p id=\"o\"></p>\n<script>function pick(k){document.getElementById('o').textContent=k?'Right: a pin never moves under you.':'A branch moves; try again.';if(k)window.jade.complete(100);}</script>",
+     "height": 260
+    }
+   ]
+  },
+  {
+   "title": "Pages from a CDN",
+   "maps": [
+    {
+     "title": "Lazy loading",
+     "links": [
+      "edu.js | defines | <jade-course>",
+      "<jade-course> | imports on first use | player.js",
+      "player.js | imports when needed | labs.js",
+      "labs.js | fetches on first run | MicroPython"
+     ]
+    }
+   ],
+   "summary": [
+    "A stack module is an ES module that finds its own files with `import.meta.url`, so the same code runs from a folder, a webxdc and a CDN.",
+    "Big pieces load the first time they are needed: the player, the labs, the teacher, Python and math typesetting."
+   ],
+   "keyPoints": [
+    "Load one small entry file; everything else is `import()`-ed on demand.",
+    "A CDN URL names a repository, a pin and a path."
+   ],
+   "lesson": [
+    {
+     "type": "code",
+     "lang": "html",
+     "code": "<script type=\"module\"\n  src=\"https://cdn.jsdelivr.net/gh/lucky-edgelord/jade-edu@<pin>/src/edu.js\"></script>\n<jade-course src=\"course.json\"></jade-course>"
+    },
+    {
+     "type": "table",
+     "title": "What loads when",
+     "head": [
+      "Piece",
+      "When"
+     ],
+     "rows": [
+      [
+       "edu.js",
+       "page load (a few kB)"
+      ],
+      [
+       "player.js",
+       "first course shown"
+      ],
+      [
+       "labs.js",
+       "Practice opened"
+      ],
+      [
+       "MicroPython",
+       "first Python run"
+      ],
+      [
+       "KaTeX",
+       "a course with math"
+      ]
+     ]
+    },
+    {
+     "type": "text",
+     "items": [
+      "The load cost grows roughly as $T \\approx t_0 + \\sum_i s_i / b$ where only the pieces $i$ you use are counted."
+     ]
+    }
+   ],
+   "references": [
+    {
+     "title": "jsDelivr GitHub CDN",
+     "url": "https://www.jsdelivr.com/?docs=gh",
+     "note": "URL format"
+    }
+   ],
+   "quiz": [
+    {
+     "q": "How does a module find its own assets on a CDN?",
+     "options": [
+      "A global variable",
+      "import.meta.url",
+      "A cookie"
+     ],
+     "answer": 1,
+     "explain": "`new URL('./x', import.meta.url)` resolves next to the module, wherever it was loaded from."
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does import() give you?",
+     "a": "A module loaded on demand, the first time it is needed."
+    }
+   ],
+   "practice": [
+    {
+     "type": "fill",
+     "id": "url",
+     "title": "Complete the CDN URL",
+     "text": "https://cdn.jsdelivr.net/{{gh}}/lucky-edgelord/jade-edu@{{v0.1.0|0.1.0}}/src/edu.js"
+    },
+    {
+     "type": "code",
+     "id": "cdn",
+     "title": "Build a CDN URL",
+     "fn": "cdn",
+     "intro": "Write cdn(repo, ref, path) that returns the jsDelivr URL for a file in a lucky-edgelord repository.",
+     "starter": "function cdn(repo, ref, path) {\n  return '';\n}",
+     "tests": [
+      {
+       "args": [
+        "jade-edu",
+        "v0.1.0",
+        "src/edu.js"
+       ],
+       "expect": "https://cdn.jsdelivr.net/gh/lucky-edgelord/jade-edu@v0.1.0/src/edu.js"
+      },
+      {
+       "args": [
+        "jade-vn-engine",
+        "fe61a50",
+        "engine/vn.js"
+       ],
+       "expect": "https://cdn.jsdelivr.net/gh/lucky-edgelord/jade-vn-engine@fe61a50/engine/vn.js"
+      }
+     ],
+     "solution": "function cdn(repo, ref, path) {\n  return 'https://cdn.jsdelivr.net/gh/lucky-edgelord/' + repo + '@' + ref + '/' + path;\n}"
+    }
+   ]
+  },
+  {
+   "title": "Scripting with MicroPython",
+   "summary": [
+    "jade-vn-engine compiles Ren'Py-style scripts to JSON and runs their Python on MicroPython in the browser. Python labs here use the same build, from the same CDN pin."
+   ],
+   "glossary": {
+    "MicroPython": "A small Python 3 for microcontrollers that also compiles to WebAssembly.",
+    "Store": "The variables a story keeps; rollback and saves snapshot it."
+   },
+   "keyPoints": [
+    "One Python runtime serves games and courses.",
+    "Labs run in a Worker with a time limit, so an endless loop cannot freeze the page."
+   ],
+   "lesson": [
+    {
+     "type": "code",
+     "lang": "python",
+     "code": "def xp_for(level):\n    return 100 * 2 ** (level - 1)\n\nprint([xp_for(n) for n in range(1, 5)])"
+    },
+    {
+     "type": "math",
+     "tex": "xp(n) = 100 \\cdot 2^{\\,n-1}"
+    },
+    {
+     "type": "table",
+     "title": "Commands",
+     "head": [
+      "Command",
+      "Does"
+     ],
+     "rows": [
+      [
+       "jade vn new <name>",
+       "a new game folder"
+      ],
+      [
+       "jade vn build <name>",
+       "a .xdc and a folder"
+      ],
+      [
+       "jade edu validate <file>",
+       "checks a course"
+      ]
+     ]
+    }
+   ],
+   "references": [
+    {
+     "title": "jade-vn-engine",
+     "url": "https://github.com/lucky-edgelord/jade-vn-engine",
+     "note": "the engine"
+    }
+   ],
+   "quiz": [
+    {
+     "q": "What is xp(3)?",
+     "options": [
+      "300",
+      "400",
+      "800"
+     ],
+     "answer": 1,
+     "explain": "$100 \\cdot 2^{2} = 400$."
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where does Python run in a course?",
+     "a": "MicroPython (WebAssembly) in a Worker."
+    }
+   ],
+   "practice": [
+    {
+     "type": "python",
+     "id": "xp",
+     "title": "Experience curve",
+     "fn": "xp_for",
+     "intro": "Write xp_for(level): 100 at level 1, doubling each level.",
+     "starter": "def xp_for(level):\n    return 0\n",
+     "tests": [
+      {
+       "args": [
+        1
+       ],
+       "expect": 100
+      },
+      {
+       "args": [
+        2
+       ],
+       "expect": 200
+      },
+      {
+       "args": [
+        5
+       ],
+       "expect": 1600
+      }
+     ],
+     "solution": "def xp_for(level):\n    return 100 * 2 ** (level - 1)\n"
+    },
+    {
+     "type": "terminal",
+     "id": "cli",
+     "title": "The jade CLI",
+     "prompt": "$",
+     "banner": "Make a game and check a course with the jade CLI. Type help.",
+     "chips": [
+      "jade vn new mygame",
+      "jade vn build mygame",
+      "jade edu validate course.json"
+     ],
+     "commands": [
+      {
+       "re": "^jade vn new (\\w+)$",
+       "out": [
+        "created {{1}}/ (game.toml, script.rpy)"
+       ],
+       "set": {
+        "game": "{{1}}"
+       }
+      },
+      {
+       "re": "^jade vn build (\\w+)$",
+       "when": {
+        "game": "mygame"
+       },
+       "out": [
+        "engine fe61a50 (cached)",
+        "wrote dist/{{1}}.xdc"
+       ]
+      },
+      {
+       "re": "^jade vn build (\\w+)$",
+       "out": [
+        "no such game: {{1}} (run jade vn new first)"
+       ],
+       "cls": "err"
+      },
+      {
+       "re": "^jade edu validate (\\S+)$",
+       "out": [
+        "{{1}}: ok, 3 chapters, 0 warnings"
+       ]
+      },
+      {
+       "re": "^ls$",
+       "out": [
+        "course.json  {{game}}"
+       ]
+      }
+     ],
+     "tasks": [
+      {
+       "text": "make a game called mygame",
+       "cmd": "^jade vn new mygame$"
+      },
+      {
+       "text": "build it",
+       "cmd": "^jade vn build mygame$"
+      },
+      {
+       "text": "validate course.json",
+       "cmd": "^jade edu validate course\\.json$"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "finalExam": {
+  "title": "Stack check",
+  "passMark": 70,
+  "questions": [
+   {
+    "q": "Which part is the resource plane?",
+    "options": [
+     "Vault",
+     "Agent Base",
+     "jade-edu"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Which ref is safe in a production CDN URL?",
+    "options": [
+     "@main",
+     "@v1.3.0"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "When does MicroPython load in a course?",
+    "options": [
+     "On page load",
+     "On the first Python run"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What styles every Jade front-end?",
+    "options": [
+     "--jade-* tokens from Agent UI/UX",
+     "Inline styles"
+    ],
+    "answer": 0
+   }
+  ]
+ }
+}

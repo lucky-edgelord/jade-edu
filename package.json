@@ -1,0 +1,15 @@
+{
+  "name": "jade-edu",
+  "version": "0.1.0",
+  "description": "Interactive courses from one JSON file (lecture slides with a talking teacher, concept maps, quizzes, practice labs with Python, flashcards, a final exam), as lazy-loaded ES modules from a CDN. Part of the Jade Agent Stack.",
+  "type": "module",
+  "main": "src/edu.js",
+  "module": "src/edu.js",
+  "exports": { ".": "./src/edu.js", "./core/*": "./src/core/*", "./src/*": "./src/*" },
+  "files": ["src", "assets", "tools", "examples", "LICENSE", "README.md", "AGENTS.md"],
+  "bin": { "jade-edu": "tools/validate.mjs" },
+  "scripts": { "test": "node tests/core.test.mjs && node tests/player.test.mjs" },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/lucky-edgelord/jade-edu" },
+  "devDependencies": { "playwright": "1.56.0" }
+}
